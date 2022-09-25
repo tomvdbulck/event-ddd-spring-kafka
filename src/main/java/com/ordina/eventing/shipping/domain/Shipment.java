@@ -1,11 +1,14 @@
 package com.ordina.eventing.shipping.domain;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.UUID;
 
 @Getter
+@ToString
 public class Shipment {
 
     private UUID id;
@@ -48,6 +51,7 @@ public class Shipment {
         RECEIVED
     }
 
+    @Builder
     public class Order {
 
         private String orderCode;
@@ -56,9 +60,14 @@ public class Shipment {
 
         private List<Product> productList;
 
-        public class Product {
+        public static class Product {
             private String code;
-            private String description;
+            private String name;
+
+            public Product(String code, String name) {
+                this.code = code;
+                this.name = name;
+            }
         }
 
         public enum OrderStatus{

@@ -1,21 +1,31 @@
 package com.ordina.eventing.customer.domain;
 
+import com.ordina.eventing.customer.domain.events.OrderIsOrderedEvent;
 import lombok.Getter;
+import lombok.ToString;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 @Getter
-public class Order {
+@Entity
+@ToString
+public class Order extends AbstractAggregateRoot {
 
+    @Id
     private UUID id;
 
     private String customerCode;
     private OrderStatus status;
 
     private List<Product> productList;
+
+    private Order() {}
 
     public Order(Customer customer, HashMap<String,Product> productList) {
         this.id = UUID.randomUUID();
@@ -24,6 +34,8 @@ public class Order {
         this.productList = new ArrayList<>(productList.values());
 
         this.status = OrderStatus.ORDERED;
+
+        registerEvent(new OrderIsOrderedEvent(this));
         //broadcast event
     }
 
@@ -46,6 +58,7 @@ public class Order {
         this.status = OrderStatus.DELIVERED;
         //broadcast event
     }
+
 
     public enum OrderStatus{
         ORDERED,

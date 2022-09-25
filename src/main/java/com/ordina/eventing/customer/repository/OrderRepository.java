@@ -2,12 +2,14 @@ package com.ordina.eventing.customer.repository;
 
 import com.ordina.eventing.customer.domain.Order;
 import com.ordina.eventing.customer.domain.Orders;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Repository
 public class OrderRepository implements Orders {
 
     private HashMap<UUID, Order> orderHashMap;

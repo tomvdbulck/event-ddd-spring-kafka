@@ -2,12 +2,16 @@ package com.ordina.eventing.shipping.repository;
 
 import com.ordina.eventing.shipping.domain.Shipment;
 import com.ordina.eventing.shipping.domain.Shipments;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Repository
+@Slf4j
 public class ShipmentRepository implements Shipments {
 
     private HashMap<UUID, Shipment> shipmentHashMap;
@@ -19,6 +23,8 @@ public class ShipmentRepository implements Shipments {
 
     @Override
     public void add(Shipment shipment) {
+        log.info("Adding shipment {}", shipment);
+
         if (shipmentHashMap.containsKey(shipment.getId())) {
             throw new RuntimeException("shipment-already-exists");
         }

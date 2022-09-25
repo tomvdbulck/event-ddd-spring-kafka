@@ -2,11 +2,13 @@ package com.ordina.eventing.product.repository;
 
 import com.ordina.eventing.product.domain.Product;
 import com.ordina.eventing.product.domain.Products;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
+@Repository
 public class ProductRepository implements Products {
     @Override
     public List<Product> getAvailableProducts() {
