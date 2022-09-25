@@ -1,14 +1,52 @@
 package com.ordina.eventing.shipping.domain;
 
-import java.util.List;
+import lombok.Getter;
 
+import java.util.List;
+import java.util.UUID;
+
+@Getter
 public class Shipment {
+
+    private UUID id;
 
     private String customerCode;
 
+    private ShipmentStatus status;
+
     private Order order;
 
+    public Shipment(String customerCode, Order order) {
+        this.id = UUID.randomUUID();
 
+        this.customerCode = customerCode;
+        this.order = order;
+
+        this.status = ShipmentStatus.NEW;
+    }
+
+    public void readyToShip() {
+        this.status = ShipmentStatus.ASSEMBLED;
+        //broadcast event
+    }
+
+    public void send() {
+        this.status = ShipmentStatus.SENT;
+        //broadcast event
+    }
+
+    public void receive() {
+        this.status = ShipmentStatus.RECEIVED;
+        //broadcast event
+    }
+
+
+    public enum ShipmentStatus {
+        NEW,
+        ASSEMBLED,
+        SENT,
+        RECEIVED
+    }
 
     public class Order {
 
@@ -28,8 +66,6 @@ public class Shipment {
             PAID,
             CANCELLED
         }
-
-
     }
 
 

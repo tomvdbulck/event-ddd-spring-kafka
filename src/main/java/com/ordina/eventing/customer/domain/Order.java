@@ -1,12 +1,16 @@
 package com.ordina.eventing.customer.domain;
 
-import java.math.BigDecimal;
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
+@Getter
 public class Order {
+
+    private UUID id;
 
     private String customerCode;
     private OrderStatus status;
@@ -14,6 +18,7 @@ public class Order {
     private List<Product> productList;
 
     public Order(Customer customer, HashMap<String,Product> productList) {
+        this.id = UUID.randomUUID();
         this.customerCode = customer.getCode();
 
         this.productList = new ArrayList<>(productList.values());
@@ -32,10 +37,22 @@ public class Order {
         //broadcast event
     }
 
+    public void ship() {
+        this.status = OrderStatus.SHIPPED;
+        //broadcast event
+    }
+
+    public void delivered(){
+        this.status = OrderStatus.DELIVERED;
+        //broadcast event
+    }
+
     public enum OrderStatus{
         ORDERED,
         PAID,
-        CANCELLED
+        CANCELLED,
+        SHIPPED,
+        DELIVERED
     }
 
 

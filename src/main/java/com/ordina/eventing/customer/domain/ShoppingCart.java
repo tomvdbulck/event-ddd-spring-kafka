@@ -28,7 +28,6 @@ public class ShoppingCart {
     }
 
     public Order order() {
-        //add event broadcast
         this.status = ShoppingCartStatus.ORDERED;
 
         return new Order(customer, productList);
