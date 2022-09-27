@@ -4,7 +4,6 @@ package com.ordina.eventing.customer.domain;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface Orders extends Repository<Order, String> {
     void save(Order order);

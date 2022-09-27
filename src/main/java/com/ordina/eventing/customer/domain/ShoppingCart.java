@@ -3,7 +3,6 @@ package com.ordina.eventing.customer.domain;
 import lombok.Getter;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 @Getter
 public class ShoppingCart {
