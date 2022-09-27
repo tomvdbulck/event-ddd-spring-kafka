@@ -1,17 +1,18 @@
-package com.ordina.eventing.shipping.acl;
+package com.ordina.eventing.warehouse.acl;
 
 import com.ordina.eventing.customer.domain.events.OrderIsOrderedEvent;
-import com.ordina.eventing.shipping.domain.Shipment;
-import com.ordina.eventing.shipping.domain.Shipments;
+import com.ordina.eventing.warehouse.domain.Shipment;
+import com.ordina.eventing.warehouse.domain.Shipments;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.service.spi.InjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.stream.Collectors;
 
-@Component
+@Service
 @Slf4j
 public class OrderDomainEventHandler {
 
@@ -19,9 +20,9 @@ public class OrderDomainEventHandler {
     public Shipments shipments;
 
     @EventListener
+    //@TransactionalEventListener
     public void onOrderIsOrdered(OrderIsOrderedEvent event){
-
-        log.info("Handling event {}", event);
+        log.info("Handling a DOMAIN event {}", event);
 
         Shipment.Order order = Shipment.Order.builder()
                 .orderCode(event.getOrderId().toString())
@@ -32,7 +33,9 @@ public class OrderDomainEventHandler {
                 )
                 .build();
 
-        shipments.add(new Shipment(event.getCustomerCode(), order));
+        Shipment shipment = new Shipment(event.getCustomerCode(), order);
+        shipments.add(shipment);
 
+        log.info("We have now added the new shipment {}", shipment);
     }
 }

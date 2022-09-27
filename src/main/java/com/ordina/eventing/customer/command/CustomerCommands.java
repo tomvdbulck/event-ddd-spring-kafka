@@ -28,7 +28,7 @@ public class CustomerCommands {
         ShoppingCart shoppingCart = shoppingCarts.get(customer.getCode());
 
         Order order = shoppingCart.order();
-        orders.add(order);
+        orders.save(order);
 
         shoppingCarts.update(shoppingCart);
     }

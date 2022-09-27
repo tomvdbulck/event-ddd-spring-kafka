@@ -1,4 +1,4 @@
-package com.ordina.eventing.shipping.domain;
+package com.ordina.eventing.warehouse.domain;
 
 import java.util.List;
 import java.util.UUID;

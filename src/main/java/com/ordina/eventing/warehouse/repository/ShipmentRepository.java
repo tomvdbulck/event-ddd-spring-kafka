@@ -1,7 +1,7 @@
-package com.ordina.eventing.shipping.repository;
+package com.ordina.eventing.warehouse.repository;
 
-import com.ordina.eventing.shipping.domain.Shipment;
-import com.ordina.eventing.shipping.domain.Shipments;
+import com.ordina.eventing.warehouse.domain.Shipment;
+import com.ordina.eventing.warehouse.domain.Shipments;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

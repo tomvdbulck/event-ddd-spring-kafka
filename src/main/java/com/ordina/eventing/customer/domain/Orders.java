@@ -1,14 +1,16 @@
 package com.ordina.eventing.customer.domain;
 
+
+import org.springframework.data.repository.Repository;
+
 import java.util.List;
 import java.util.UUID;
 
-public interface Orders {
-    void add(Order order);
+public interface Orders extends Repository<Order, String> {
+    void save(Order order);
 
-    Order get(UUID id);
+    Order findById(String id);
 
-    List<Order> forCustomer(String customerCode);
+    List<Order> findAll();
 
-    void update(Order order);
 }

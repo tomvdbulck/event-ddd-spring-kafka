@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,20 +13,24 @@ import java.util.UUID;
 
 @Getter
 @ToString
+@Entity
+@Table(name = "orderz") //order is not a good tablename when auto generation stuff
 public class Order extends AbstractAggregateRoot {
 
     @Id
-    private UUID id;
+    private String id;
 
     private String customerCode;
     private OrderStatus status;
 
+    @ElementCollection
+    @CollectionTable(name = "order_products")
     private List<Product> productList;
 
     public Order() {}
 
     public Order(Customer customer, HashMap<String,Product> productList) {
-        this.id = UUID.randomUUID();
+        this.id = UUID.randomUUID().toString();
         this.customerCode = customer.getCode();
 
         this.productList = new ArrayList<>(productList.values());
@@ -34,7 +38,6 @@ public class Order extends AbstractAggregateRoot {
         this.status = OrderStatus.ORDERED;
 
         registerEvent(new OrderIsOrderedEvent(this));
-        //broadcast event
     }
 
 
