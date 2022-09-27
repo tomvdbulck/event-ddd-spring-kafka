@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +12,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter
-@Entity
 @ToString
 public class Order extends AbstractAggregateRoot {
 

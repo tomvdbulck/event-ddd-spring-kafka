@@ -52,7 +52,7 @@ public class Shipment {
     }
 
     @Builder
-    public class Order {
+    public static class Order {
 
         private String orderCode;
 
