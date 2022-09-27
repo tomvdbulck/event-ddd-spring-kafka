@@ -25,7 +25,7 @@ public class Order extends AbstractAggregateRoot {
 
     private List<Product> productList;
 
-    private Order() {}
+    public Order() {}
 
     public Order(Customer customer, HashMap<String,Product> productList) {
         this.id = UUID.randomUUID();
@@ -38,6 +38,7 @@ public class Order extends AbstractAggregateRoot {
         registerEvent(new OrderIsOrderedEvent(this));
         //broadcast event
     }
+
 
     public void pay() {
         this.status = OrderStatus.PAID;

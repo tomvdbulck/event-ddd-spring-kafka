@@ -10,5 +10,5 @@ public interface Orders {
 
     List<Order> forCustomer(String customerCode);
 
-    void update(Order shipment);
+    void update(Order order);
 }

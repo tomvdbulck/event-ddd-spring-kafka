@@ -1,18 +1,21 @@
 package com.ordina.eventing.customer.domain;
 
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.UUID;
 
+@Getter
 public class ShoppingCart {
 
-    private UUID id;
+    private String customerCode;
     private ShoppingCartStatus status;
     private Customer customer;
 
     private HashMap<String, Product> productList;
 
     public ShoppingCart(Customer customer){
-        id = UUID.randomUUID();
+        customerCode = customer.getCode();
         status = ShoppingCartStatus.NEW;
         this.customer = customer;
         productList = new HashMap<>();
