@@ -22,12 +22,8 @@ public class ShipmentRepository implements Shipments {
 
 
     @Override
-    public void add(Shipment shipment) {
-        log.info("Adding shipment {}", shipment);
-
-        if (shipmentHashMap.containsKey(shipment.getId())) {
-            throw new RuntimeException("shipment-already-exists");
-        }
+    public void save(Shipment shipment) {
+        log.info("Updating shipment {}", shipment);
 
         shipmentHashMap.put(shipment.getId(), shipment);
     }
@@ -52,5 +48,12 @@ public class ShipmentRepository implements Shipments {
         }
 
         shipmentHashMap.put(shipment.getId(), shipment);
+    }
+
+    @Override
+    public Shipment getByOrder(String orderNumber) {
+        return shipmentHashMap.values().stream()
+                .filter(shipment -> shipment.getOrder().getOrderCode().equals(orderNumber))
+                .findFirst().orElseThrow(() -> new RuntimeException("No shipment found for order " + orderNumber));
     }
 }

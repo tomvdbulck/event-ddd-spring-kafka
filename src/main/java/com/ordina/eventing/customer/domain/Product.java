@@ -22,7 +22,7 @@ public class Product {
 
     private int amount;
 
-    private Product() {
+    public Product() {
         //
     }
 

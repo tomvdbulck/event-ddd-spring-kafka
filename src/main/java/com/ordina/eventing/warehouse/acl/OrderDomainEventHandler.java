@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,15 +25,15 @@ public class OrderDomainEventHandler {
 
         Shipment.Order order = Shipment.Order.builder()
                 .orderCode(event.getOrderId().toString())
-                .status(Shipment.Order.OrderStatus.ORDERED)
-                .productList(event.getProductList().stream()
-                        .map(product -> new Shipment.Order.Product(product.getCode(), product.getName()))
-                        .collect(Collectors.toList())
-                )
+                .orderStatus(Shipment.Order.OrderStatus.ORDERED)
                 .build();
 
-        Shipment shipment = new Shipment(event.getCustomerCode(), order);
-        shipments.add(shipment);
+        List<Shipment.Product> productList = event.getProductList().stream()
+                        .map(product -> new Shipment.Product(product.getCode(), product.getName()))
+                        .collect(Collectors.toList());
+
+        Shipment shipment = new Shipment(event.getCustomerCode(), order, productList);
+        shipments.save(shipment);
 
         log.info("We have now added the new shipment {}", shipment);
     }

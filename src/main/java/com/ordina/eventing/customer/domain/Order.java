@@ -56,6 +56,12 @@ public class Order extends AbstractAggregateRoot {
         //broadcast event
     }
 
+    public void readyToBeShipped() {
+        this.status = OrderStatus.READY_TO_BE_SHIPPED;
+        //broadcast event
+    }
+
+
     public void delivered(){
         this.status = OrderStatus.DELIVERED;
         //broadcast event
@@ -67,6 +73,7 @@ public class Order extends AbstractAggregateRoot {
         PAID,
         CANCELLED,
         SHIPPED,
+        READY_TO_BE_SHIPPED,
         DELIVERED
     }
 

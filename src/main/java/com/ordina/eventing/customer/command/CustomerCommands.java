@@ -24,12 +24,14 @@ public class CustomerCommands {
         shoppingCarts.update(shoppingCart);
     }
 
-    public void placeOrder(Customer customer){
+    public Order placeOrder(Customer customer){
         ShoppingCart shoppingCart = shoppingCarts.get(customer.getCode());
 
         Order order = shoppingCart.order();
         orders.save(order);
 
         shoppingCarts.update(shoppingCart);
+
+        return order;
     }
 }
