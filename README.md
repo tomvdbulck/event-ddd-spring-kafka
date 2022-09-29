@@ -1,6 +1,14 @@
 # event-ddd-spring-kafka
 Event Domain Driven Design with Spring
 
+## Getting Started
+Clone and create a new project in Intellij.
+Make sure java 17 is installed.
+
+Disable the JMX agent for Spring Boot.
+
+Run the application and the `FakeActor' will start to generate orders.
+
 ## Exercise
 
 Implement the following events in the `warehouse` bounded context.
