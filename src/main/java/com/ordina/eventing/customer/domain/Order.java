@@ -3,6 +3,7 @@ package com.ordina.eventing.customer.domain;
 import com.ordina.eventing.customer.domain.events.OrderIsOrderedEvent;
 import lombok.Getter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @ToString
 @Entity
 @Table(name = "orderz") //order is not a good tablename when auto generation stuff
+@Slf4j
 public class Order extends AbstractAggregateRoot {
 
     @Id
@@ -59,6 +61,7 @@ public class Order extends AbstractAggregateRoot {
     public void readyToBeShipped() {
         this.status = OrderStatus.READY_TO_BE_SHIPPED;
         //broadcast event
+        log.info("update the status for the order to {}", this.status);
     }
 
 

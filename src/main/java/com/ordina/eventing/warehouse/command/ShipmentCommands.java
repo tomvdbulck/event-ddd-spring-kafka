@@ -14,7 +14,10 @@ public class ShipmentCommands {
     }
 
     public void indicateShipmentHasBeenAssembled(Shipment shipment) {
+        shipment = shipments.findById(shipment.getId().toString()).orElse(null);
 
+        shipment.readyToShip();
+        shipments.save(shipment);
     }
 
     public void sendShipment(Shipment shipment) {

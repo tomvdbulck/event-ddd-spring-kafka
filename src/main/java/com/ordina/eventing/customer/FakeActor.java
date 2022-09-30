@@ -5,6 +5,7 @@ import com.ordina.eventing.customer.domain.Customer;
 import com.ordina.eventing.customer.domain.Order;
 import com.ordina.eventing.product.domain.Product;
 import com.ordina.eventing.product.query.ProductQueries;
+import com.ordina.eventing.warehouse.command.ShipmentCommands;
 import com.ordina.eventing.warehouse.domain.Shipment;
 import com.ordina.eventing.warehouse.query.ShipmentQueries;
 import lombok.extern.slf4j.Slf4j;
@@ -25,19 +26,22 @@ public class FakeActor {
 
     private ShipmentQueries shipmentQueries;
 
+    private ShipmentCommands shipmentComands;
+
     private Customer customer;
 
     public FakeActor(CustomerCommands customerCommands, ProductQueries productQueries
-            , ShipmentQueries shipmentQueries){
+            , ShipmentQueries shipmentQueries, ShipmentCommands shipmentComands){
         this.customerCommands = customerCommands;
         this.productQueries = productQueries;
         this.shipmentQueries = shipmentQueries;
+        this.shipmentComands = shipmentComands;
 
         customer = new Customer("1", "Tom");
     }
 
     @Scheduled(fixedRate = 60_000L, initialDelay = 1L)
-    public void placeOrders(){
+    public void placeOrders() throws InterruptedException {
         log.info("place a random order");
 
         List<Product> productList = productQueries.getAvailableProducts();
@@ -68,6 +72,21 @@ public class FakeActor {
 
 
         //Now I can become a warehouse person.
+        //1st indicate that the shipment is ready to be shipped
+        Thread.sleep(1000L);
+
+        shipmentComands.indicateShipmentHasBeenAssembled(shipmentForThisCustomer);
+
+        Thread.sleep(1000L);
+        shipmentComands.sendShipment(shipmentForThisCustomer);
+
+        Thread.sleep(1000L);
+        shipmentComands.shipmentHasBeenDelivered(shipmentForThisCustomer);
+
+
+
+
+
 
 
     }

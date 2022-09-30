@@ -5,6 +5,8 @@ import com.ordina.eventing.warehouse.domain.Shipments;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Component
 public class ShipmentQueries {
@@ -15,12 +17,17 @@ public class ShipmentQueries {
         this.shipments = shipments;
     }
 
-    public Shipment getById(UUID id){
-        return this.shipments.get(id);
+    public Shipment getById(String id){
+        return this.shipments.findById(id).orElse(null);
     }
 
     public Shipment getByOrderNumber(String orderNumber){
-        return this.shipments.getByOrder(orderNumber);
+        return StreamSupport
+                .stream(this.shipments.findAll().spliterator(), false)
+                .filter( shipment -> shipment.getOrder().getOrderCode().equals(orderNumber))
+                .findFirst()
+                .orElse(null);
+
     }
 
 }
