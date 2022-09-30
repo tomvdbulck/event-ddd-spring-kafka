@@ -1,5 +1,6 @@
 package com.ordina.eventing.warehouse.domain;
 
+import com.ordina.eventing.warehouse.domain.events.ShipmentIsReadyToBeShipped;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,13 +12,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter
-@ToString
 @Entity
 @Table
 public class Shipment extends AbstractAggregateRoot {
 
     @Id
-    private UUID id;
+    private String id;
 
     private String customerCode;
 
@@ -30,7 +30,7 @@ public class Shipment extends AbstractAggregateRoot {
     private List<Product> productList;
 
     public Shipment(String customerCode, Order order, List<Product> products) {
-        this.id = UUID.randomUUID();
+        this.id = UUID.randomUUID().toString();
 
         this.customerCode = customerCode;
         this.order = order;
@@ -46,7 +46,8 @@ public class Shipment extends AbstractAggregateRoot {
 
     public void readyToShip() {
         this.status = ShipmentStatus.ASSEMBLED;
-        //broadcast event
+
+        registerEvent(new ShipmentIsReadyToBeShipped(this));
     }
 
     public void send() {
@@ -71,6 +72,7 @@ public class Shipment extends AbstractAggregateRoot {
     @Embeddable
     @AllArgsConstructor
     @Getter
+    @ToString
     public static class Order {
 
         private String orderCode;
